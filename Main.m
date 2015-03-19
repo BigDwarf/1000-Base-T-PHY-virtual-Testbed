@@ -323,7 +323,9 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         end
         plot(t,plotCoded,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        handles.firstAlgorithm_t_MLT3 = t;
+        handles.firstAlgorithm_MLT3_Stream = plotCoded;
+        guidata(hObject,handles);
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(plotCoded, t, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
@@ -332,9 +334,11 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         fs=20;
         fs_MLT3=25e6;
         [t_MLT3,MLT3_stream, dt] = MLT_3(data',fs,fs_MLT3);
-        disp(t_MLT3);
-        disp('__');
-        disp(MLT3_stream);
+        
+        handles.secondAlgorithm_t_MLT3 = t_MLT3;
+        handles.secondAlgoriithm_MLT3_Stream = MLT3_stream;
+        guidata(hObject,handles);
+        
         axes(handles.MLT3Axes);
         plot(t_MLT3,MLT3_stream,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
@@ -1064,18 +1068,17 @@ close(h);
 function MLT3AxesOriginalSizeButton_Callback(hObject, eventdata, handles)
 % hObject    handle to MLT3AxesOriginalSizeButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% handle structure with handles and user data (see GUIDATA)
 
-global MLT3AxesOriginalSizeYLimits;
-global MLT3AxesOriginalSizeXLimits;
-disp(MLT3AxesOriginalSizeYLimits(2));
-disp(MLT3AxesOriginalSizeXLimits(2));
-axes(handles.MLT3Axes);
-a2 = gca;
-xLimits = get(a2,'XLim');
-yLimits = get(a2,'YLim');
-disp([ MLT3AxesOriginalSizeYLimits(2) MLT3AxesOriginalSizeXLimits(2) MLT3AxesOriginalSizeYLimits(1) MLT3AxesOriginalSizeYLimits(1)]);
-axis([ MLT3AxesOriginalSizeXLimits(1) MLT3AxesOriginalSizeXLimits(2) MLT3AxesOriginalSizeYLimits(1) MLT3AxesOriginalSizeYLimits(2)]);
+ if(get(handles.firstAlgorithm,'Value') == 1)  
+    axes(handles.MLT3Axes);
+   
+    plot( handles.firstAlgorithm_t_MLT3,handles.firstAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
+    set(gca, 'color', [0 0 0]);
+ else
+    plot( handles.secondAlgorithm_t_MLT3,handles.secondAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
+    set(gca, 'color', [0 0 0]);
+ end
 
 
 % --- Executes on button press in StdTabButton.
@@ -1172,7 +1175,7 @@ data1 = get(handles.MLT3UserDataEditPanel, 'String');
         end
         plot(t,plotCoded,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        
         axes(handles_method.fullScreenAxes);
         [f,Y,NFFT] = spectrum(plotCoded, t, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
@@ -1181,16 +1184,13 @@ data1 = get(handles.MLT3UserDataEditPanel, 'String');
         fs=20;
         fs_MLT3=25e6;
         [t_MLT3,MLT3_stream, dt] = MLT_3(data',fs,fs_MLT3);
-
+        
         axes(handles_method.fullScreenAxes);
         [f,Y,NFFT] = spectrum(MLT3_stream, t_MLT3, dt);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
         
     end
-
-
-
 
 % --- Executes on button press in MLT3SpectrumAxesOriginalSizeButton.
 function MLT3SpectrumAxesOriginalSizeButton_Callback(hObject, eventdata, handles)
