@@ -1,5 +1,5 @@
-function [ bitStream ] = bitstreamgenerator( nBit )
+function [ bitStream ] = bitstreamgenerator( nBit , nRow )
 %   Generator of four bit streams with length nBit
-bitStream=round(rand(4,nBit));
+bitStream=round(rand(nRow,nBit));
 end
 
