@@ -6,9 +6,9 @@ function [ x,y,z,t,t_meander,Fs,Fs_meander] = generateSignals(  )
 % t - time for sin and sawtooth
 % t_meander - time for meander
 % Fs_meander - sampling frequency meander
-Fs = 10;                    % sampling frequency
+Fs = 1000;                    % sampling frequency
 T = 1/Fs;                     % period
-L = 1000;                     % Length of signal
+L = 100000;                     % Length of signal
 t = (0:L-1)*T;                % Time vector
 F=10;
 A=1;        % amplitude

@@ -75,18 +75,18 @@ set(handles.scramblerPanel,'Visible','off');
 axes(handles.sawtoothAxes);
 [f,Y , NFFT] = spectrum(sawtooth, t, Fs);
 plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
-axis([min(f) max(f) 0 100]);
+axis([min(f) f(fix(end/50)) 0 100]);
 
 axes(handles.sinAxes);
 [f,Y , NFFT] = spectrum(sin, t, Fs);
 temp = 2*abs(Y(1:NFFT/2+1));
 plot(f,temp,'color',[0.9  0.75 0],'linewidth',2);
-axis([min(f) max(f) 0 50]);
+axis([min(f) f(fix(end/50))  0 50]);
 
 axes(handles.meanderAxes);
 [f,Y , NFFT] = spectrum(meander, t_meander, Fs_meander);
 plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
-axis([min(f) max(f) 0 1]);
+axis([min(f) f(fix(end/12))  0 1]);
 
 
 %icons
