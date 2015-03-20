@@ -6,15 +6,16 @@ function f = PAM5decoder(a)
     
     numberOfPair = 0;
     si = size(f);
-    for i = 1: 8 : si(2)
-        f(i) = a(1, numberOfPair*2 + 1);
-        f (i + 1) = a (1, numberOfPair*2 + 2);
-        f(i + 2) = a(2, numberOfPair*2 + 1);
-        f(i + 3) = a(2, numberOfPair*2 + 2);
-        f(i + 4) = a(3, numberOfPair*2 + 1);
-        f(i + 5) = a(3, numberOfPair*2 + 2);
-        f(i + 6) = a(4, numberOfPair*2 + 1);
-        f(i + 7) = a(4, numberOfPair*2 + 2);
+    si = si(2);
+    for i = 1: 8 : si
+        f(si - i + 1) = a(1, numberOfPair*2 + 1);
+        f (si - i ) = a (1, numberOfPair*2 + 2);
+        f(si - i - 1) = a(2, numberOfPair*2 + 1);
+        f(si - i - 2) = a(2, numberOfPair*2 + 2);
+        f(si - i - 3) = a(3, numberOfPair*2 + 1);
+        f(si - i - 4) = a(3, numberOfPair*2 + 2);
+        f(si - i - 5) = a(4, numberOfPair*2 + 1);
+        f(si - i - 6) = a(4, numberOfPair*2 + 2);
         i = i+7;
         numberOfPair = numberOfPair + 1;
     
