@@ -1,3 +1,3 @@
-function repeat = repeat(str, n)
-    disp(class(repmat(str , [1,n]))) ;
+function [data] = repeat(str, n)
+    data = (repmat(str ,[1,n])) ;
 end

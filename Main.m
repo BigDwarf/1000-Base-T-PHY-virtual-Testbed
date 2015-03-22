@@ -41,7 +41,12 @@ set(handles.MLT3UserDataEditPanel,'String',data);
 
 function MLT3RepeatUserDataButton_Callback(hObject, eventdata, handles)
 string = get(handles.MLT3UserDataEditPanel, 'String');
-cc = strcat(string, string);
+repeatCount = get(handles.countOfRepeat, 'String');
+string = str2num(string);
+repeatCount = str2num(repeatCount);
+cc = repeat(string,repeatCount);
+cc = num2str(cc);
+cc = cc(~isspace(cc));
 set(handles.MLT3UserDataEditPanel,'String',cc);
 
 function MLT3UserDataEditPanel_Callback(hObject, eventdata, handles)
@@ -1109,24 +1114,18 @@ createBackground();
 function uipanel20_CreateFcn(hObject, eventdata, handles)
 createBackground();
 
-
 function selectAlgorithmPanel_CreateFcn(hObject, eventdata, handles)
-
 
 function PAM5SecondChannelAxesIncreaseValueButton_CreateFcn(hObject, eventdata, handles)
 
-
 function countOfDataRepeatMLT3_Callback(hObject, eventdata, handles)
-
 
 function countOfDataRepeatMLT3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-
 function countOfDataRepeatPAM5_Callback(hObject, eventdata, handles)
-
 
 function countOfDataRepeatPAM5_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -1135,11 +1134,9 @@ end
 
 function scramblerTab_Callback(hObject, eventdata, handles)
 
+function countOfRepeat_Callback(hObject, eventdata, handles)
 
-function edit4_Callback(hObject, eventdata, handles)
-
-
-function edit4_CreateFcn(hObject, eventdata, handles)
+function countOfRepeat_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
