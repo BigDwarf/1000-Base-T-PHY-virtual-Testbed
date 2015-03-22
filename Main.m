@@ -190,8 +190,13 @@ set(handles.PAM5UserDataEdit,'String',data);
 % --- Executes on button press in PAM5RepeatUserDataButton.
 function PAM5RepeatUserDataButton_Callback(hObject, eventdata, handles)
 string = get(handles.PAM5UserDataEdit, 'String');
-cc = strcat(string, string);
-set(handles.PAM5UserDataEdit,'String',cc); 
+repeatCount = get(handles.countOfRepeatDataPAM5, 'String');
+string = str2num(string);
+repeatCount = str2num(repeatCount);
+cc = repeat(string,repeatCount);
+cc = num2str(cc);
+cc = cc(~isspace(cc));
+set(handles.PAM5UserDataEdit,'String',cc);
 
 function PAM5UserDataEdit_Callback(hObject, eventdata, handles)
 
