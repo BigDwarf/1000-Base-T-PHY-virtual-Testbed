@@ -42,11 +42,11 @@ set(handles.MLT3UserDataEditPanel,'String',data);
 function MLT3RepeatUserDataButton_Callback(hObject, eventdata, handles)
 string = get(handles.MLT3UserDataEditPanel, 'String');
 repeatCount = get(handles.countOfRepeat, 'String');
-string = str2num(string);
+
 repeatCount = str2num(repeatCount);
+
 cc = repeat(string,repeatCount);
 cc = num2str(cc);
-cc = cc(~isspace(cc));
 set(handles.MLT3UserDataEditPanel,'String',cc);
 
 function MLT3UserDataEditPanel_Callback(hObject, eventdata, handles)
@@ -80,9 +80,11 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         end
         plot(t,plotCoded,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        
         handles.firstAlgorithm_t_MLT3 = t;
         handles.firstAlgorithm_MLT3_Stream = plotCoded;
         guidata(hObject,handles);
+        
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(plotCoded, t, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
@@ -92,25 +94,21 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         fs_MLT3=25e6;
         [t_MLT3,MLT3_stream, dt] = MLT_3(data',fs,fs_MLT3);
         
+
+        axes(handles.MLT3Axes);
+        plot(t_MLT3,MLT3_stream,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+        
         handles.secondAlgorithm_t_MLT3 = t_MLT3;
         handles.secondAlgoriithm_MLT3_Stream = MLT3_stream;
         guidata(hObject,handles);
         
-        axes(handles.MLT3Axes);
-        plot(t_MLT3,MLT3_stream,'color',[0.9  0.75 0],'linewidth',2);
-        set(gca,'color',[0 0 0]);
-
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(MLT3_stream, t_MLT3, dt);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
         
-    end
-    axes(handles.MLT3Axes);
-    a2 = gca;
-    MLT3AxesOriginalSizeXLimits = get(a2,'XLim');
-    MLT3AxesOriginalSizeYLimits = get(a2,'YLim');
-    
+    end    
 function MLT3AxesIncreaseValueButton_Callback(hObject, eventdata, handles)
 axes(handles.MLT3Axes);
 increaseSize();
@@ -187,12 +185,12 @@ data = char(dataCell);
 set(handles.PAM5UserDataEdit,'String',data); 
 
 
-% --- Executes on button press in PAM5RepeatUserDataButton.
 function PAM5RepeatUserDataButton_Callback(hObject, eventdata, handles)
 string = get(handles.PAM5UserDataEdit, 'String');
 repeatCount = get(handles.countOfRepeatDataPAM5, 'String');
-string = str2num(string);
+
 repeatCount = str2num(repeatCount);
+
 cc = repeat(string,repeatCount);
 cc = num2str(cc);
 cc = cc(~isspace(cc));
@@ -449,9 +447,7 @@ data = str2num(data1(:));
     else
         fs = 250e6;
         sfs = 20;
-        disp(data);
-        
-         data = data';
+        data = data';
         size_t = size(data);
         size_t = size_t(2);
         data = reshape(data, 4, size_t/4);
@@ -498,11 +494,7 @@ set(handles_method.fullScreenAxesIncreaseValueButton,'Callback',{@btn_methodIncr
 set(handles_method.fullScreenAxesDecreaseValueButton, 'Callback',{@btn_methodDecrease_Callback,handles,handles_method})
 set(handles_method.fullScreenAxesButton, 'CallBack', {@btn_methodClose,handles,handles_method, h})
 data1 = get(handles.PAM5UserDataEdit, 'String');
-    %disp(data1);
-    %disp(class(data1));
     data = str2num(data1(:));
-    %disp(data);
-    
     if(get(handles.firstAlgorithm, 'Value') == 1)
         temp = PAM5coder(data');
 
@@ -646,10 +638,10 @@ close(h);
 function MLT3AxesOriginalSizeButton_Callback(hObject, eventdata, handles)
  if(get(handles.firstAlgorithm,'Value') == 1)  
     axes(handles.MLT3Axes);
-   
     plot( handles.firstAlgorithm_t_MLT3,handles.firstAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
     set(gca, 'color', [0 0 0]);
  else
+    axes(handles.MLT3Axes);
     plot( handles.secondAlgorithm_t_MLT3,handles.secondAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
     set(gca, 'color', [0 0 0]);
  end
@@ -696,12 +688,7 @@ set(handles_method.fullScreenAxesIncreaseValueButton,'Callback',{@btn_methodIncr
 set(handles_method.fullScreenAxesDecreaseValueButton, 'Callback',{@btn_methodDecrease_Callback,handles,handles_method})
 set(handles_method.fullScreenAxesButton, 'CallBack', {@btn_methodClose,handles,handles_method, h})
 data1 = get(handles.MLT3UserDataEditPanel, 'String');
-    %disp(data1);
-    %disp(class(data1));
     data = str2num(data1(:));
-    disp(data);
-    disp('__');
-    %disp(data);
     if(get(handles.firstAlgorithm,'Value') == 1)
         axes(handles.MLT3Axes);
         coded = MLT3coder(data);
@@ -771,11 +758,7 @@ set(handles_method.fullScreenAxesDecreaseValueButton, 'Callback',{@btn_methodDec
 set(handles_method.fullScreenAxesButton, 'CallBack', {@btn_methodClose,handles,handles_method, h})
 
  data1 = get(handles.PAM5UserDataEdit, 'String');
-    %disp(data1);
-    %disp(class(data1));
     data = str2num(data1(:));
-    %disp(data);
-    
     if(get(handles.firstAlgorithm, 'Value') == 1)
         temp = PAM5coder(data');    
 
@@ -859,11 +842,7 @@ set(handles_method.fullScreenAxesDecreaseValueButton, 'Callback',{@btn_methodDec
 set(handles_method.fullScreenAxesButton, 'CallBack', {@btn_methodClose,handles,handles_method, h})
 
 data1 = get(handles.PAM5UserDataEdit, 'String');
-    %disp(data1);
-    %disp(class(data1));
     data = str2num(data1(:));
-    %disp(data);
-    
     if(get(handles.firstAlgorithm, 'Value') == 1)
         temp = PAM5coder(data');    
 
