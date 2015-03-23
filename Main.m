@@ -42,9 +42,7 @@ set(handles.MLT3UserDataEditPanel,'String',data);
 function MLT3RepeatUserDataButton_Callback(hObject, eventdata, handles)
 string = get(handles.MLT3UserDataEditPanel, 'String');
 repeatCount = get(handles.countOfRepeat, 'String');
-
 repeatCount = str2num(repeatCount);
-
 cc = repeat(string,repeatCount);
 cc = num2str(cc);
 set(handles.MLT3UserDataEditPanel,'String',cc);
@@ -81,34 +79,59 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         plot(t,plotCoded,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
         
-        handles.firstAlgorithm_t_MLT3 = t;
-        handles.firstAlgorithm_MLT3_Stream = plotCoded;
-        guidata(hObject,handles);
+        global MLT3OriginalSizeTime;
+        MLT3OriginalSizeTime = t;
+        global MLT3OriginalSizeData;
+        MLT3OriginalSizeData = plotCoded;
         
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(plotCoded, t, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        
+        global MLT3SpectrumFirstF;
+        global MLT3SpectrumFirstY;
+        global MLT3SpectrumFirstNFFT;
+        MLT3SpectrumFirstF = f; MLT3SpectrumFirstY = Y; MLT3SpectrumFirstNFFT = NFFT;
     else
         fs=20;
         fs_MLT3=25e6;
         [t_MLT3,MLT3_stream, dt] = MLT_3(data',fs,fs_MLT3);
         
-
+        global MLT3OriginalSizeTimeSecond;
+        global  MLT3OriginalSizeDataSecond;
+        MLT3OriginalSizeTimeSecond = t_MLT3;
+        MLT3OriginalSizeDataSecond = MLT3_stream;
         axes(handles.MLT3Axes);
         plot(t_MLT3,MLT3_stream,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-        
-        handles.secondAlgorithm_t_MLT3 = t_MLT3;
-        handles.secondAlgoriithm_MLT3_Stream = MLT3_stream;
-        guidata(hObject,handles);
         
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(MLT3_stream, t_MLT3, dt);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        global MLT3SpectrumSecondF;
+        global MLT3SpectrumSecondY;
+        global MLT3SpectrumSecondNFFT;
+        MLT3SpectrumSecondF = f; MLT3SpectrumSecondY = Y; MLT3SpectrumSecondNFFT = NFFT;     
         
     end    
+function MLT3SpectrumAxesOriginalSizeButton_Callback(hObject, eventdata, handles)
+ if(get(handles.firstAlgorithm,'Value') == 1) 
+    global MLT3SpectrumFirstF;
+    global MLT3SpectrumFirstY;
+    global MLT3SpectrumFirstNFFT;
+    axes(handles.MLT3SpectrumAxes);
+    plot(MLT3SpectrumFirstF,2*abs(MLT3SpectrumFirstY(1:MLT3SpectrumFirstNFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+ else
+    global MLT3SpectrumSecondF;
+    global MLT3SpectrumSecondY;
+    global MLT3SpectrumSecondNFFT;
+    axes(handles.MLT3SpectrumAxes);
+    plot(MLT3SpectrumSecondF,2*abs(MLT3SpectrumSecondY(1:MLT3SpectrumSecondNFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+ end
 function MLT3AxesIncreaseValueButton_Callback(hObject, eventdata, handles)
 axes(handles.MLT3Axes);
 increaseSize();
@@ -638,11 +661,15 @@ close(h);
 function MLT3AxesOriginalSizeButton_Callback(hObject, eventdata, handles)
  if(get(handles.firstAlgorithm,'Value') == 1)  
     axes(handles.MLT3Axes);
-    plot( handles.firstAlgorithm_t_MLT3,handles.firstAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
+    global MLT3OriginalSizeTime;
+    global MLT3OriginalSizeData;
+    plot(MLT3OriginalSizeTime,MLT3OriginalSizeData,'color',[0.9  0.75 0],'linewidth',2);
     set(gca, 'color', [0 0 0]);
  else
     axes(handles.MLT3Axes);
-    plot( handles.secondAlgorithm_t_MLT3,handles.secondAlgorithm_MLT3_Stream,'color',[0.9  0.75 0],'linewidth',2);
+    global MLT3OriginalSizeTimeSecond;
+    global MLT3OriginalSizeDataSecond;
+    plot(MLT3OriginalSizeTimeSecond,MLT3OriginalSizeDataSecond,'color',[0.9  0.75 0],'linewidth',2);
     set(gca, 'color', [0 0 0]);
  end
 
@@ -726,8 +753,6 @@ data1 = get(handles.MLT3UserDataEditPanel, 'String');
         set(gca,'color',[0 0 0]);
         
     end
-
-function MLT3SpectrumAxesOriginalSizeButton_Callback(hObject, eventdata, handles)
 
 function PAM5SpectrumFourthChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
 
@@ -1141,3 +1166,19 @@ set(handles.chooseAlgorithmPanel, 'Visible', 'on');
 
 function scramblerPanel_CreateFcn(hObject, eventdata, handles)
 createBackground();
+
+function generateBitStreamPAM5_Callback(hObject, eventdata, handles)
+cc = bitstreamgenerator(8,4);
+a = reshape(cc,1,32);
+a = num2str(a);
+a = a(~isspace(a));
+set(handles.PAM5UserDataEdit, 'String', a);
+
+function generateBitStreamMLT3_Callback(hObject, eventdata, handles)
+cc = bitstreamgenerator(8,4);
+a = reshape(cc,1,32);
+a = num2str(a);
+a = a(~isspace(a));
+set(handles.MLT3UserDataEditPanel, 'String', a);
+
+function generateBitStreamMLT3_CreateFcn(hObject, eventdata, handles)
