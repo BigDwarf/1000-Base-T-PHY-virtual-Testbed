@@ -1,4 +1,4 @@
-function f = scn_generating(sx,sy, tx_enable, tx_mode,n, n0)
+function f = scn_generating(sx,sy, tx_enable, tx_mode,n, n0, syprev)
     f = 1:8;
     if (tx_mode == 2)
         f(1) = 0;
@@ -19,9 +19,9 @@ function f = scn_generating(sx,sy, tx_enable, tx_mode,n, n0)
         else
             oneM = [1 1 1];
             syM = 1:3;
-            syM(1) = sy(1);
-            syM(2) = sy(2);
-            syM(3) = sy(3);
+            syM(1) = syprev(1);
+            syM(2) = syprev(2);
+            syM(3) = syprev(3);
             res = xor(oneM, syM);
             f(2) = res(1);
             f(3) = res(2);
