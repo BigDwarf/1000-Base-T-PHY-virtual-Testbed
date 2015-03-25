@@ -250,7 +250,7 @@ function PAM5ApplyUserDataButton_Callback(hObject, eventdata, handles)
 
         axes(handles.PAM5FirstChannelAxes);
         plot(t1,PAMcode(temp(1,:)),'color',[0.9  0.75 0],'linewidth',2);
-        set(gca,'color',[0 0 0]);
+        set(gca,'color',[0 0 0]);     
         %figure;
         axes(handles.PAM5SecondChannelAxes);
         plot(t1, PAMcode(temp(2,:)),'color',[0.9  0.75 0],'linewidth',2);
@@ -263,26 +263,43 @@ function PAM5ApplyUserDataButton_Callback(hObject, eventdata, handles)
         axes(handles.PAM5FourthChannelAxes);
         plot (t1, PAMcode(temp(4,:)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        
+        global PAM5ChannelAxest1;
+        PAM5ChannelAxest1 = t1;
+        global PAM5FirstChannelAxesData;
+        global PAM5SecondChannelAxesData;
+        global PAM5ThirdChannelAxesData;
+        global PAM5FourthChannelAxesData;
+        PAM5FirstChannelAxesData = PAMcode(temp(1,:));
+        PAM5SecondChannelAxesData = PAMcode(temp(2,:));
+        PAM5ThirdChannelAxesData = PAMcode(temp(3,:));
+        PAM5FourthChannelAxesData = PAMcode(temp(4,:));
+        
         axes(handles.PAM5SpectrumFirstChannelAxes);
         [f,Y,NFFT] = spectrum(PAMcode(temp(1,:)), t1, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        global PS1F1;global PS1Y1;global PS1NFFT1; PS1F1 = f; PS1Y1 = Y; PS1NFFT1 = NFFT;
+        
         axes(handles.PAM5SpectrumSecondChannelAxes);
         [f,Y,NFFT] = spectrum(PAMcode(temp(2,:)), t1, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        global PS2F1;global PS2Y1;global PS2NFFT1; PS2F1 = f; PS2Y1 = Y; PS2NFFT1 = NFFT;
+        
         axes(handles.PAM5SpectrumThirdChannelAxes);
         [f,Y,NFFT] = spectrum(PAMcode(temp(3,:)), t1, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        global PS3F1; global PS3Y1;global PS3NFFT1; PS3F1 = f; PS3Y1 = Y; PS3NFFT1 = NFFT;
+        
         axes(handles.PAM5SpectrumFourthChannelAxes);
         [f,Y,NFFT] = spectrum(PAMcode(temp(4,:)), t1, 25e6);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        global PS4F1;global PS4Y1;global PS4NFFT1; PS4F1 = f; PS4Y1 = Y; PS4NFFT1 = NFFT;
+        
+        
     else
         fs = 250e6;
         sfs = 20;
@@ -299,6 +316,10 @@ function PAM5ApplyUserDataButton_Callback(hObject, eventdata, handles)
         [t_PAM5_3, PAM5_stream3, dt3] = PAM_5(data(3,:), sfs, fs);
         [t_PAM5_4, PAM5_stream4, dt4] = PAM_5(data(4,:), sfs, fs);
         
+        global TPAM5_1; global TPAM5_2; global TPAM5_3; global TPAM5_4;
+        global DPAM5_1; global DPAM5_2; global DPAM5_3; global DPAM5_4;
+        TPAM5_1 = t_PAM5_1;TPAM5_2 = t_PAM5_2; TPAM5_3 = t_PAM5_3 ;TPAM5_4 = t_PAM5_4;
+        DPAM5_1 = PAM5_stream1; DPAM5_2 = PAM5_stream2;DPAM5_3 = PAM5_stream3;DPAM5_4 = PAM5_stream4;
         
         axes(handles.PAM5FirstChannelAxes);
         plot(t_PAM5_1,PAM5_stream1(1,:),'color',[0.9  0.75 0],'linewidth',2);
@@ -320,21 +341,25 @@ function PAM5ApplyUserDataButton_Callback(hObject, eventdata, handles)
         [f,Y,NFFT] = spectrum(PAM5_stream1(1,:), t_PAM5_1, dt1);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        global PS1F2;global PS1Y2;global PS1NFFT2; PS1F2 = f; PS1Y2 = Y; PS1NFFT2 = NFFT;
+        
         axes(handles.PAM5SpectrumSecondChannelAxes);
         [f,Y,NFFT] = spectrum(PAM5_stream2(1,:), t_PAM5_2, dt2);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-
+        global PS2F2;global PS2Y2;global PS2NFFT2; PS2F2 = f; PS2Y2 = Y; PS2NFFT2 = NFFT;
+        
         axes(handles.PAM5SpectrumThirdChannelAxes);
         [f,Y,NFFT] = spectrum(PAM5_stream3(1,:), t_PAM5_3, dt3);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        global PS3F2; global PS3Y2;global PS3NFFT2; PS3F2 = f; PS3Y2 = Y; PS3NFFT2 = NFFT;
 
         axes(handles.PAM5SpectrumFourthChannelAxes);
         [f,Y,NFFT] = spectrum(PAM5_stream4(1,:), t_PAM5_4, dt4);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+        global PS4F2;global PS4Y2;global PS4NFFT2; PS4F2 = f; PS4Y2 = Y; PS4NFFT2 = NFFT;
     end
 function PAM5FirstChannelAxesIncreaseValueButton_Callback(hObject, eventdata, handles)
 axes(handles.PAM5FirstChannelAxes);
@@ -755,6 +780,17 @@ data1 = get(handles.MLT3UserDataEditPanel, 'String');
     end
 
 function PAM5SpectrumFourthChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+if(get(handles.firstAlgorithm, 'Value') == 1)
+    axes(handles.PAM5SpectrumFourthChannelAxes);    
+    global PS4F1;global PS4Y1;global PS4NFFT1;
+    plot(PS4F1,2*abs(PS4Y1(1:PS4NFFT1/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5SpectrumFourthChannelAxes);    
+    global PS4F2;global PS4Y2;global PS4NFFT2;
+    plot(PS4F2,2*abs(PS4Y2(1:PS4NFFT2/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+end
 
 function PAM5SpectrumFourthChannelAxesExpandButton_Callback(hObject, eventdata, handles)
 h = open('fullScreenAxes.fig');
@@ -909,9 +945,18 @@ data1 = get(handles.PAM5UserDataEdit, 'String');
     end
 
 
-% --- Executes on button press in PAM5SpectrumThirdChannelOriginalSizeButton.
 function PAM5SpectrumThirdChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
-
+if(get(handles.firstAlgorithm, 'Value') == 1)
+    axes(handles.PAM5SpectrumThirdChannelAxes);    
+    global PS3F1;global PS3Y1;global PS3NFFT1;
+    plot(PS3F1,2*abs(PS3Y1(1:PS3NFFT1/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5SpectrumThirdChannelAxes);    
+    global PS3F2;global PS3Y2;global PS3NFFT2;
+    plot(PS3F2,2*abs(PS3Y2(1:PS3NFFT2/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+end
 function PAM5SpectrumSecondChannelAxesIncreaseValueButton_Callback(hObject, eventdata, handles)
 axes(handles.PAM5SpectrumSecondChannelAxes);
 increaseSize();
@@ -982,6 +1027,17 @@ if(get(handles.firstAlgorithm, 'Value') == 1)
     end
 
 function PAM5SpectrumSecondChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+if(get(handles.firstAlgorithm, 'Value') == 1)
+    axes(handles.PAM5SpectrumSecondChannelAxes);    
+    global PS2F1;global PS2Y1;global PS2NFFT1;
+    plot(PS2F1,2*abs(PS2Y1(1:PS2NFFT1/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5SpectrumSecondChannelAxes);    
+    global PS2F2;global PS2Y2;global PS2NFFT2;
+    plot(PS2F2,2*abs(PS2Y2(1:PS2NFFT2/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+end
 
 function PAM5SpectrumSecondChannelAxesDecreaseValueButton_Callback(hObject, eventdata, handles)
 axes(handles.PAM5SpectrumSecondChannelAxes);
@@ -1065,12 +1121,61 @@ data = str2num(data1(:));
     end
 
 function PAM5SpectrumFirstChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+if(get(handles.firstAlgorithm, 'Value') == 1)
+    axes(handles.PAM5SpectrumFirstChannelAxes);    
+    global PS1F1;global PS1Y1;global PS1NFFT1;
+    plot(PS1F1,2*abs(PS1Y1(1:PS1NFFT1/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5SpectrumFirstChannelAxes);    
+    global PS1F2;global PS1Y2;global PS1NFFT2;
+    plot(PS1F2,2*abs(PS1Y2(1:PS1NFFT2/2+1)),'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+end
 
 function PAM5FourthChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+if(get(handles.firstAlgorithm, 'Value') == 1)
+        axes(handles.PAM5FourthChannelAxes);
+        global PAM5ChannelAxest1;
+        global PAM5FourthChannelAxesData;
+        plot (PAM5ChannelAxest1, PAM5FourthChannelAxesData,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5FourthChannelAxes);
+    global TPAM5_4;
+    global DPAM5_4;
+    plot (TPAM5_4, DPAM5_4,'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);    
+end
 
 function PAM5ThirdChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
-
+if(get(handles.firstAlgorithm, 'Value') == 1)
+        axes(handles.PAM5ThirdChannelAxes);
+        global PAM5ChannelAxest1;
+        global PAM5ThirdChannelAxesData;
+        plot (PAM5ChannelAxest1, PAM5ThirdChannelAxesData,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+else
+    axes(handles.PAM5ThirdChannelAxes);
+    global TPAM5_3;
+    global DPAM5_3;
+    plot (TPAM5_3, DPAM5_3,'color',[0.9  0.75 0],'linewidth',2);
+    set(gca,'color',[0 0 0]);
+end
 function PAM5FirstChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+    if(get(handles.firstAlgorithm, 'Value') == 1)
+        axes(handles.PAM5FirstChannelAxes);
+        global PAM5ChannelAxest1;
+        global PAM5FirstChannelAxesData;
+        plot (PAM5ChannelAxest1, PAM5FirstChannelAxesData,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+    else
+        axes(handles.PAM5FirstChannelAxes);
+        global TPAM5_1;
+        global DPAM5_1;
+        plot (TPAM5_1, DPAM5_1,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+    end
 
 function MLT3Panel_CreateFcn(hObject, eventdata, handles)
 createBackground();
@@ -1182,3 +1287,19 @@ a = a(~isspace(a));
 set(handles.MLT3UserDataEditPanel, 'String', a);
 
 function generateBitStreamMLT3_CreateFcn(hObject, eventdata, handles)
+
+
+function PAM5SecondChannelOriginalSizeButton_Callback(hObject, eventdata, handles)
+if(get(handles.firstAlgorithm, 'Value') == 1)
+        axes(handles.PAM5SecondChannelAxes);
+        global PAM5ChannelAxest1;
+        global PAM5SecondChannelAxesData;
+        plot (PAM5ChannelAxest1, PAM5SecondChannelAxesData,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+else
+     axes(handles.PAM5SecondChannelAxes);
+        global TPAM5_2;
+        global DPAM5_2;
+        plot (TPAM5_2, DPAM5_2,'color',[0.9  0.75 0],'linewidth',2);
+        set(gca,'color',[0 0 0]);
+end
