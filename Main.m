@@ -1273,15 +1273,29 @@ function scramblerPanel_CreateFcn(hObject, eventdata, handles)
 createBackground();
 
 function generateBitStreamPAM5_Callback(hObject, eventdata, handles)
-cc = bitstreamgenerator(8,4);
-a = reshape(cc,1,32);
+repeatCount = get(handles.lengthOfBitsPam5, 'String');
+temp = str2num(repeatCount);
+if(size(temp))
+    cc = bitstreamgenerator(temp,4);
+    a = reshape(cc,1,temp*4);
+else
+    cc = bitstreamgenerator(8,4);   
+    a = reshape(cc,1,32);
+end;
 a = num2str(a);
 a = a(~isspace(a));
 set(handles.PAM5UserDataEdit, 'String', a);
 
 function generateBitStreamMLT3_Callback(hObject, eventdata, handles)
-cc = bitstreamgenerator(8,4);
-a = reshape(cc,1,32);
+repeatCount = get(handles.lengthOfBitsMLT3, 'String');
+temp = str2num(repeatCount);
+if(size(temp))
+    cc = bitstreamgenerator(temp,4);
+    a = reshape(cc,1,temp*4);
+else
+    cc = bitstreamgenerator(8,4);   
+    a = reshape(cc,1,32);
+end
 a = num2str(a);
 a = a(~isspace(a));
 set(handles.MLT3UserDataEditPanel, 'String', a);
@@ -1302,4 +1316,26 @@ else
         global DPAM5_2;
         plot (TPAM5_2, DPAM5_2,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
+end
+
+function lengthOfBitsMLT3_Callback(hObject, eventdata, handles)
+
+function lengthfBitsMLT3_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function lengthOfBitsPam5_Callback(hObject, eventdata, handles)
+
+function lengthOfBitsPam5_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+    
+function PAM5SpectrumThirdChannelOriginalSizeButton_CreateFcn(hObject, eventdata, handles)
+
+
+function lengthOfBitsMLT3_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
 end
