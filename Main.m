@@ -59,7 +59,8 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
     data = str2num(data1(:));
     if(get(handles.firstAlgorithm,'Value') == 1)
         axes(handles.MLT3Axes);
-        coded = MLT3coder(data);
+        fs = 20;
+        coded = MLT3coder(data,fs);
         t    = 1:size(coded)*2;
         t(1) = 0.0;
         plotCoded = 1:size(coded)*2;
@@ -76,16 +77,22 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
                 t(j) = t(j-1) + timeForBit;
             end  
         end
-        plot(t,plotCoded,'color',[0.9  0.75 0],'linewidth',2);
+
+        fs=20;
+        fs_MLT3=25e6;
+        dt=(1/fs)/fs_MLT3;
+        [t_MLT3,~, ~] = MLT_3(data',fs,fs_MLT3);
+
+        plot(t_MLT3,coded,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
         
         global MLT3OriginalSizeTime;
         MLT3OriginalSizeTime = t;
         global MLT3OriginalSizeData;
         MLT3OriginalSizeData = plotCoded;
-        
+
         axes(handles.MLT3SpectrumAxes);
-        [f,Y,NFFT] = spectrum(plotCoded, t, 25e6);
+        [f,Y,NFFT] = spectrum(coded, t_MLT3, 1/dt);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
         
@@ -105,7 +112,6 @@ function MLT3AplyUserDataButtton_Callback(hObject, eventdata, handles)
         axes(handles.MLT3Axes);
         plot(t_MLT3,MLT3_stream,'color',[0.9  0.75 0],'linewidth',2);
         set(gca,'color',[0 0 0]);
-        
         axes(handles.MLT3SpectrumAxes);
         [f,Y,NFFT] = spectrum(MLT3_stream, t_MLT3, dt);
         plot(f,2*abs(Y(1:NFFT/2+1)),'color',[0.9  0.75 0],'linewidth',2);
