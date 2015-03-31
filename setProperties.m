@@ -63,6 +63,11 @@ a = imresize(bg_increaseZoom,[60 70], 'bilinear');
 set(handles.MLT3AxesIncreaseValueButton, 'CData', a)
 set(handles.MLT3SpectrumAxesIncreaseValueButton, 'Cdata', a);
 
+bg_generate = imread('images/generate.jpg');
+a = imresize(bg_generate, [52 140], 'bilinear');
+set(handles.generateBitStreamMLT3, 'CData', a)
+set(handles.generateBitStreamPAM5, 'CData', a);
+
 bg_decreaseZoom = imread('images/PressZoom-.jpg', 'jpg');
 a = imresize(bg_decreaseZoom, [40 46], 'bilinear');
 set(handles.PAM5FirstChannelAxesDecreaseValueButton , 'CData', a)
