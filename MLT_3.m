@@ -1,8 +1,8 @@
 function [t_MLT3,MLT3_stream,fs] =MLT_3( bit_stream,sfs,fs )
 [row_number,row_lenght]=size(bit_stream);
 MLT3_stream=zeros(row_number,row_lenght.*sfs);
-k=0; % ���� 1 ��� -1 
-prev_lvl=0; % ���������� ��������
+k=0;
+prev_lvl=0; 
 dt=(1/fs)/sfs;
 t_MLT3=0:dt:(row_lenght)*(1/fs)-dt;
 for i=1:row_number
