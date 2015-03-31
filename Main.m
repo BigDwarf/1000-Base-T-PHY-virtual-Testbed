@@ -308,7 +308,7 @@ function PAM5ApplyUserDataButton_Callback(hObject, eventdata, handles)
         
     else
         fs = 250e6;
-        sfs = 20;
+        sfs = 100;
         
         data = data';
         size_t = size(data);
@@ -1296,11 +1296,11 @@ function generateBitStreamMLT3_Callback(hObject, eventdata, handles)
 repeatCount = get(handles.lengthOfBitsMLT3, 'String');
 temp = str2num(repeatCount);
 if(size(temp))
-    cc = bitstreamgenerator(temp,4);
-    a = reshape(cc,1,temp*4);
+    cc = bitstreamgenerator(temp,1);
+    a = reshape(cc,1,temp);
 else
-    cc = bitstreamgenerator(8,4);   
-    a = reshape(cc,1,32);
+    cc = bitstreamgenerator(8,1);   
+    a = reshape(cc,1,8);
 end
 a = num2str(a);
 a = a(~isspace(a));
