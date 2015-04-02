@@ -30,19 +30,6 @@ a = imresize(bg_PAM5LoadButton, [52 140], 'bilinear');
 set(handles.PAM5LoadUserDataButton, 'CData', a) 
 set(handles.MLT3LoadFileButton, 'CData', a);
 
-bg_PAM5UserDataEdit = imread('images/UserDataEdit.jpg', 'jpg');
-a = imresize(bg_PAM5UserDataEdit, [52 140], 'bilinear'); 
-set(handles.PAM5UserDataEdit, 'CData', a);
-
-bg_MLT3UserDataEditPanel = imread('images/UserDataEdit.jpg', 'jpg');
-a = imresize(bg_MLT3UserDataEditPanel, [52 140], 'bilinear');
-set(handles.MLT3UserDataEditPanel, 'CData', a);
-
-bg_RepeatUserDataButton = imread('images/repeatDataButton.jpg', 'jpg');
-a = imresize(bg_RepeatUserDataButton, [52 140], 'bilinear');
-set(handles.MLT3RepeatUserDataButton, 'CData', a)
-set(handles.PAM5RepeatUserDataButton, 'CData', a);
-
 bg_ApplyButton = imread('images/applyButton.jpg', 'jpg');
 a = imresize(bg_ApplyButton, [52 140], 'bilinear');
 set(handles.PAM5ApplyUserDataButton, 'CData', a)

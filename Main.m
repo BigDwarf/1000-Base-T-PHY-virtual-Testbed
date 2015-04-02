@@ -39,14 +39,6 @@ dataCell = textread(filename, '%q', 1);
 data = char(dataCell);
 set(handles.MLT3UserDataEditPanel,'String',data); 
 
-function MLT3RepeatUserDataButton_Callback(hObject, eventdata, handles)
-string = get(handles.MLT3UserDataEditPanel, 'String');
-repeatCount = get(handles.countOfRepeat, 'String');
-repeatCount = str2num(repeatCount);
-cc = repeat(string,repeatCount);
-cc = num2str(cc);
-set(handles.MLT3UserDataEditPanel,'String',cc);
-
 function MLT3UserDataEditPanel_Callback(hObject, eventdata, handles)
 
 function MLT3UserDataEditPanel_CreateFcn(hObject, eventdata, handles)
@@ -212,18 +204,6 @@ filename = uigetfile('*.txt');
 dataCell = textread(filename, '%q', 1);
 data = char(dataCell);
 set(handles.PAM5UserDataEdit,'String',data); 
-
-
-function PAM5RepeatUserDataButton_Callback(hObject, eventdata, handles)
-string = get(handles.PAM5UserDataEdit, 'String');
-repeatCount = get(handles.countOfRepeatDataPAM5, 'String');
-
-repeatCount = str2num(repeatCount);
-
-cc = repeat(string,repeatCount);
-cc = num2str(cc);
-cc = cc(~isspace(cc));
-set(handles.PAM5UserDataEdit,'String',cc);
 
 function PAM5UserDataEdit_Callback(hObject, eventdata, handles)
 
